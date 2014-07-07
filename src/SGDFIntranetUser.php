@@ -2,20 +2,28 @@
 
 namespace Tinque\SDGFIntranetSDK;
 
+use Tinque\SDGFIntranetSDK\User\RetrieveInformations As RetrieveInformations;
+
 class SGDFIntranetUser {
 	
-	private $mLogin;
-	private $mPassword;
+	private $mRetrieve;
 	
 	
 	public function ___construct($login,$password)
 	{
-		$this->mLogin =$login;
-		$this->mPassword = $password;
+		
+		$this->mRetrieve = new RetrieveInformations($login,$password);
+		
 	}
 	
 	public function getLogin() {
-		return $this->mLogin;
+		return $this->mRetrieve->getLogin();
+	}
+	
+	
+	public function areCredentialsValid()
+	{
+		return $this->mRetrieve->areCredentialsValid();
 	}
 	
 }
