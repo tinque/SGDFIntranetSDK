@@ -22,7 +22,7 @@ class RetrieveInformations {
 	
 	public function areCredentialsValid()
 	{
-		return false;
+		return true;
 	}
 	
 	
