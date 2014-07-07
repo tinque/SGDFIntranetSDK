@@ -1,0 +1,29 @@
+{
+	"autoload" : {
+		"psr-4" : {
+			"Tinque\\SDGFIntranetSDK\\" : "src"
+		}
+	},
+	"name" : "Tinque/SDGFIntranetSDK",
+	"license" : "MIT",
+	"require" : {
+		"php" : ">=5.5",
+		"fabpot/goutte" : "~2.0"
+	},
+	"authors" : [{
+			"name" : "Tinque",
+			"email" : "quentin.georget@gmail.com",
+			"role" : "Creator"
+		}
+	],
+	"minimum-stability" : "dev",
+	"config" : {
+		"bin-dir" : "bin",
+		"vendor-dir" : "vendor"
+	},
+	"description" : "SDK pour l'intranet SGDF",
+	"type" : "library",
+	"support" : {
+		"source" : "https://projets.tinque.fr/tinque/sdgfintranetsdk.git"
+	}
+}
