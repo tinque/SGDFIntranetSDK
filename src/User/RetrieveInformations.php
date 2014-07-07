@@ -8,7 +8,7 @@ class RetrieveInformations {
 	private $mPassword;
 	
 	
-	public function ___construct($login,$password)
+	function __construct($login,$password)
 	{
 		$this->mLogin =$login;
 		$this->mPassword = $password;
