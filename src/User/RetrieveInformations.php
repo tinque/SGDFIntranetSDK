@@ -1,6 +1,6 @@
 <?php
 
-namespace Tinque\SDGFIntranetSDK\User;
+namespace Tinque\SGDFIntranetSDK\User;
 
 class RetrieveInformations {
 	

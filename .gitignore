@@ -1,6 +1,7 @@
 /build/
 /vendor/
 /bin/
+/script/
 /composer.phar
 /composer.lock
 .project

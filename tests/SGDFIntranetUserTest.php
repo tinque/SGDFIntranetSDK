@@ -1,11 +1,11 @@
 <?php
 
-namespace Tinque\SDGFIntranetSDKTests;
+namespace Tinque\SGDFIntranetSDKTests;
 
 
 use PHPUnit_Framework_TestCase;
 
-use Tinque\SDGFIntranetSDK\SGDFIntranetUser;
+use Tinque\SGDFIntranetSDK\SGDFIntranetUser;
 
 class SGDFIntranetUserTest extends PHPUnit_Framework_TestCase {
 	

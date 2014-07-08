@@ -1,10 +1,10 @@
 {
 	"autoload" : {
 		"psr-4" : {
-			"Tinque\\SDGFIntranetSDK\\" : "src"
+			"Tinque\\SGDFIntranetSDK\\" : "src"
 		}
 	},
-	"name" : "Tinque/SDGFIntranetSDK",
+	"name" : "Tinque/SGDFIntranetSDK",
 	"license" : "MIT",
 	"require" : {
 		"php" : ">=5.5",
@@ -27,6 +27,6 @@
 	"description" : "SDK pour l'intranet SGDF",
 	"type" : "library",
 	"support" : {
-		"source" : "https://projets.tinque.fr/tinque/sdgfintranetsdk.git"
+		"source" : "https://projets.tinque.fr/tinque/sgdfintranetsdk.git"
 	}
 }
