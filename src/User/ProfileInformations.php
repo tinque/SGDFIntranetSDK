@@ -11,13 +11,14 @@ class ProfileInformations {
 
 
 	private $mFonction = -1;		
+	private $mCodeFonction = -1;		
 	private $mFonctionSecondaire =  -1;
 	private $mStatut = -1;		
 	private $mCodeAdherant = -1;
 	private $mDDN =  -1;
 	private $mEmail = -1;
-	
-	
+	private $mStructure = -1;	
+	private $mCodeStructure = -1;
 	
 	function __construct(SGDFIntranetUser $user)
 	{
@@ -42,6 +43,7 @@ class ProfileInformations {
 			$crawler = $this->mUser->getClientGoutte()->click($link);
 
                         $this->mFonction =  $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__lblFonction')->text();
+			$this->mCodeFonction = preg_replace('#^([0-9]+).*$#','$1',$this->mFonction);
 			$this->mFonctionSecondaire = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__lblFonctionsSecondaires')->text();
                         $this->mStatut =  $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__lblTypeInscription')->text();
 			$this->mCodeAdherant  =  $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__lblCodeAdherent')->text();
@@ -49,6 +51,8 @@ class ProfileInformations {
 
 			$this->mEmail =  $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__hlCourrielPersonnel')->text();
 
+			$this->mStructure = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__hlStructure')->text();
+			$this->mCodeStructure = preg_replace('#^([0-9]+).*$#','$1',$this->mStructure);
 
                 }
 
@@ -84,6 +88,13 @@ class ProfileInformations {
 		return $this->mFonction;
 
 	}
+	public function  getCodeFonction()
+	{
+	
+		return $this->mCodeFonction;
+
+	}
+
 
 	public function getFonctionSecondaire()
 	{
@@ -110,4 +121,13 @@ class ProfileInformations {
 		return $this->mEmail;
 	}
 
+	public function getStructure()
+	{
+		return $this->mStructure;
+	}
+
+	public function getCodeStructure()
+	{
+		return $this->mCodeStructure;
+	}
 }
