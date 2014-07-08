@@ -3,7 +3,7 @@
 namespace Tinque\SGDFIntranetSDK;
 
 use Tinque\SGDFIntranetSDK\User\RetrieveInformations;
-
+use \Serializable;
 use Goutte\Client As GoutteClient;
 
 class SGDFIntranetUser {
@@ -19,9 +19,6 @@ class SGDFIntranetUser {
 	//Goutte client
 	private $mClientGoutte;
 
-	//retriev information
-	private $mRetrieve;
-	
 	
 	function __construct($login,$password)
 	{
@@ -30,9 +27,6 @@ class SGDFIntranetUser {
 		$this->mPassword = $password;
 
 		$this->mClientGoutte = new GoutteClient();
-
-		$this->mRetrieve = new RetrieveInformations($login,$password);
-		
 	}
 
 	private function connect()
@@ -86,5 +80,39 @@ class SGDFIntranetUser {
 		return $this->mCredentialsError;
 
 	}
+
+	public function getClientGoutte()
+	{
+
+		return $this->mClientGoutte;
+	}
 	
+	public function checkConnection()
+	{
+		$crawler = $this->mClientGoutte->request('GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/Accueil.aspx');
+		if($crawler->filter('html:contains("Identification")')->count()>0)
+		{
+			$this->isConnected = false;
+		}
+		else
+		{
+			$this->isConnected = true;
+		}
+		return $this->isConnected;
+	}
+
+	public function reConnect()
+	{
+		$this->connect();
+		if($this->isConnected)
+		{
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
 }
