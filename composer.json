@@ -5,7 +5,7 @@
 		}
 	},
 	"name" : "Tinque/SGDFIntranetSDK",
-	"license" : "MIT",
+	"license" : "Beerware",
 	"require" : {
 		"php" : ">=5.5",
 		"fabpot/goutte" : "~2.0"
