@@ -1,4 +1,5 @@
 <?php
+
 /**
  * --------------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -7,7 +8,6 @@
  * this stuff is worth it, you can buy me a beer in return. Tinque
  * --------------------------------------------------------------------------------
  */
-
 namespace Tinque\SGDFIntranetSDK\User;
 
 use Tinque\SGDFIntranetSDK\SGDFIntranetUser;
@@ -41,10 +41,9 @@ class ProfileInformations {
 			
 			$crawler = $this->mUser->getClientGoutte ()->click ( $link );
 			
-			$this->mPrenom = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbPrenom')->text();
-			$this->mNom = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbNom')->text();
-			$this->mCivilite = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbCivilite')->text();
-			
+			$this->mPrenom = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbPrenom' )->text ();
+			$this->mNom = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbNom' )->text ();
+			$this->mCivilite = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbCivilite' )->text ();
 			
 			$this->mFonction = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonction' )->text ();
 			$this->mCodeFonction = preg_replace ( '#^([0-9]+).*$#', '$1', $this->mFonction );
@@ -62,23 +61,45 @@ class ProfileInformations {
 	public function refresh() {
 		$this->loadInformations ();
 	}
+	public function save() {
+		if (! $this->mUser->checkConnection ()) {
+			$this->mUser->reConnect ();
+		}
+		
+		if ($this->mUser->isConnected ()) {
+			
+			$crawler = $this->mUser->getClientGoutte ()->request ( 'GET', 'https://intranet.sgdf.fr/Accueil.aspx' );
+			$link = $crawler->selectLink ( 'Voir ma fiche adhérent' )->link ();
+			
+			$crawler = $this->mUser->getClientGoutte ()->click ( $link );
+			
+			$link = $crawler->selectLink ( 'Modifier l\'adhérent' )->link ();
+			
+			$crawler = $this->mUser->getClientGoutte ()->click ( $link );
+			
+			$form = $crawler->filter ( '#ctl00_MainContent__editAdherent__btnValider' )->form ();
+			
+			$crawler = $this->mUser->getClientGoutte ()->submit ( $form, array (
+					'ctl00$MainContent$_editAdherent$_editInformations$_tbCourrielPersonnel' => $this->mEmail,
+					 
+			) );
+		}
+	}
+	/*
+	 * Getters
+	 */
 	public function getLogin() {
 		return $this->mUser->getLogin ();
 	}
-	
-	public function getPrenom()
-	{
+	public function getPrenom() {
 		return $this->mPrenom;
 	}
-	public function getNom()
-	{
+	public function getNom() {
 		return $this->mNom;
 	}
-	public function getCivilite()
-	{
+	public function getCivilite() {
 		return $this->mCivilite;
 	}
-	
 	public function areCredentialsValid() {
 		return $this->mUser->areCredentialsValid ();
 	}
@@ -111,5 +132,12 @@ class ProfileInformations {
 	}
 	public function getCodeStructure() {
 		return $this->mCodeStructure;
+	}
+	
+	/*
+	 * Setters
+	 */
+	public function setEmail($email) {
+		$this->mEmail = $email;
 	}
 }
