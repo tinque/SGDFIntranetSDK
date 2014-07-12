@@ -24,6 +24,19 @@ class ProfileInformations {
 	private $mCodeAdherant = - 1;
 	private $mDDN = - 1;
 	private $mEmail = - 1;
+	private $mEmailPro = - 1;
+	private $mTelDomicile = -1;
+	private $mTelProfessionel = -1;
+	private $mTelPortable1 = -1;
+	private $mTelPortable2 = -1;
+	
+	private $mAdresse = -1;
+	private $mCodePostal =  -1;
+	private $mVille = -1;
+	private $mPays = -1;
+	
+	
+	
 	private $mStructure = - 1;
 	private $mCodeStructure = - 1;
 	function __construct(SGDFIntranetUser $user) {
@@ -41,21 +54,62 @@ class ProfileInformations {
 			
 			$crawler = $this->mUser->getClientGoutte ()->click ( $link );
 			
-			$this->mPrenom = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbPrenom' )->text ();
-			$this->mNom = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbNom' )->text ();
-			$this->mCivilite = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resumeDeclarationTamIntervenant__lbCivilite' )->text ();
-			
-			$this->mFonction = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonction' )->text ();
+			$this->mFonction = preg_replace ( '#^[0-9]+ \((.*)\)$#', '$1',$crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonction' )->text ());
 			$this->mCodeFonction = preg_replace ( '#^([0-9]+).*$#', '$1', $this->mFonction );
 			$this->mFonctionSecondaire = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonctionsSecondaires' )->text ();
+			
+			
+			
 			$this->mStatut = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblTypeInscription' )->text ();
 			$this->mCodeAdherant = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblCodeAdherent' )->text ();
 			$this->mDDN = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblDateNaissance' )->text ();
 			
 			$this->mEmail = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__hlCourrielPersonnel' )->text ();
+			$this->mEmailPro = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__hlCourrielProfessionnel')->text();
+			
+			$this->mTelDomicile = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephoneDomicile')->text();
+			$this->mTelProfessionel = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephoneBureau')->text();
+			$this->mTelPortable1 = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephonePortable1')->text();
+			$this->mTelPortable2 = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephonePortable2')->text();
+			
+			$this->mAdresse = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbLigne1')->text();
+			$this->mCodePostal = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbCodePostal')->text();
+			$this->mVille = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbVille')->text();
+			$this->mPays = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbPays')->text();
+			
 			
 			$this->mStructure = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__hlStructure' )->text ();
 			$this->mCodeStructure = preg_replace ( '#^([0-9]+).*$#', '$1', $this->mStructure );
+			
+			
+			$link = $crawler->selectLink ( 'Modifier l\'adhérent' )->link ();
+				
+			$crawler = $this->mUser->getClientGoutte ()->click ( $link );
+				
+			$form = $crawler->filter ( '#ctl00_MainContent__editAdherent__btnValider' )->form ();
+			
+			//var_dump($form);
+			
+			/*
+			 * 1 Monsieur
+			 * 2 Madame
+			 * 3 Mademoiselle
+			 * 5 Monseigneur
+			 * 6 Père
+			 * 7 Soeur
+			 * 9 Frère
+			 */
+			$this->mCivilite = $form->get('ctl00$MainContent$_editAdherent$_editIdentite$_ddCivilite')->getValue();
+			
+			
+			
+			$this->mNom = $form->get('ctl00$MainContent$_editAdherent$_editIdentite$_tbNom')->getValue();
+			$this->mPrenom = $form->get('ctl00$MainContent$_editAdherent$_editIdentite$_tbPrenom')->getValue();
+			
+			
+			
+			
+			
 		}
 	}
 	public function refresh() {
@@ -81,9 +135,12 @@ class ProfileInformations {
 			
 			$crawler = $this->mUser->getClientGoutte ()->submit ( $form, array (
 					'ctl00$MainContent$_editAdherent$_editInformations$_tbCourrielPersonnel' => $this->mEmail,
+					'ctl00$MainContent$_editAdherent$_editInformations$_tbCourrielProfessionnel' => $this->mEmailPro,
 					 
 			) );
 		}
+		
+		
 	}
 	/*
 	 * Getters
@@ -127,6 +184,39 @@ class ProfileInformations {
 	public function getEmail() {
 		return $this->mEmail;
 	}
+	public function getEmailPro() {
+		return $this->mEmailPro;
+	}
+	
+	public function getTelDomicile() {
+		return $this->mTelDomicile;
+	}
+	
+	public function getTelProfessionel() {
+		return $this->mTelProfessionel;
+	}
+	public function getTelPortable1() {
+		return $this->mTelPortable1;
+	}
+	public function getTelPortable2() {
+		return $this->mTelPortable2;
+	}
+	
+	public function getAdresse() {
+		return $this->mAdresse;
+	}
+	
+	public function getCodePostal() {
+		return $this->mCodePostal;
+	}
+	public function getVille() {
+		return $this->mVille;
+	}
+	public function getPays() {
+		return $this->mPays;
+	}
+	
+	
 	public function getStructure() {
 		return $this->mStructure;
 	}
@@ -134,10 +224,16 @@ class ProfileInformations {
 		return $this->mCodeStructure;
 	}
 	
+	
+	
+	
 	/*
 	 * Setters
 	 */
 	public function setEmail($email) {
 		$this->mEmail = $email;
+	}
+	public function setEmailPro($emailPro) {
+		$this->mEmailPro = $emailPro;
 	}
 }
