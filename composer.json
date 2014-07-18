@@ -4,7 +4,7 @@
 			"Tinque\\SGDFIntranetSDK\\" : "src"
 		}
 	},
-	"name" : "Tinque/SGDFIntranetSDK",
+	"name" : "tinque/sgdf-intranet-sdk",
 	"license" : "Beerware",
 	"require" : {
 		"php" : ">=5.5",
@@ -25,8 +25,5 @@
 		"vendor-dir" : "vendor"
 	},
 	"description" : "SDK pour l'intranet SGDF",
-	"type" : "library",
-	"support" : {
-		"source" : "https://projets.tinque.fr/tinque/sgdfintranetsdk.git"
-	}
+	"type" : "library"
 }
