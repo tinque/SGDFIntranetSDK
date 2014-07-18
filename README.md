@@ -12,7 +12,7 @@ Le SDK d&eacute;pend de Goutte et necessitte donc PHP 5.4+
 Ajouter ``Tinque/SGDFIntranetSDK`` en tant que d&eacute;pendance &agrave; votre fichier ``composer.json``
 
 ```bash
-    php composer.phar require Tinque/SGDFIntranetSDK:master
+    php composer.phar require Tinque/SGDFIntranetSDK:dev-master
 ```
 
 ##Usage
@@ -52,8 +52,10 @@ mais un jour si &ccedil;a &eacute;volue la documentation se trouvera dans le rep
 
 ##Licence
 
-Le SDK est sous Licence [Beerware](LICENSE "Test licence") 
+Le SDK est sous Licence [Beerware](LICENSE "Licence") 
 
 ![Beerware Logo](http://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/BeerWare_Logo.svg/116px-BeerWare_Logo.svg.png "Beerware Logo")
+
+Pour plus d'infos sur la licence [Beerware](http://en.wikipedia.org/wiki/Beerware)
 
 
