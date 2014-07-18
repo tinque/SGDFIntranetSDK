@@ -13,7 +13,11 @@ namespace Tinque\SGDFIntranetSDK;
 
 use \Exception;
 
-class SGDFIntranetError extends Exception {
+class SGDFIntranetException extends Exception {
+	
+	const SGDF_ERROR_NO_RIGHT = 403;
+	const SGDF_ERROR_NOT_FOUND = 404;
+	
 	
 	/**
 	 * 

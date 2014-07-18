@@ -12,8 +12,8 @@
 
 namespace Tinque\SGDFIntranetSDK\Structure;
 
-use Tinque\SGDFIntranetSDK\SGDFIntranetUser;
-use Tinque\SGDFIntranetSDK\SGDFIntranetError;
+use \Tinque\SGDFIntranetSDK\SGDFIntranetUser;
+use \Tinque\SGDFIntranetSDK\SGDFIntranetException;
 
 
 class StructureInformations {
@@ -53,20 +53,20 @@ class StructureInformations {
 		
 			if($crawler->filter('html:contains("Rechercher une structure")')->count() == 0)
 			{
-				if($crawler->filter('html:contains("Accès interdit")')->count() != 0)
+				if($crawler->filter('html:contains("interdit")')->count() == 0)
 				{
 					$this->mCodeStructureParente = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__gvParents > .ligne1 > td')->text();
 					$this->mNom = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__lblNom')->text();
 				}
 				else
 				{
-					throw new SGDFIntranetError('Absence de droit de lecture de la structure');
+					throw new SGDFIntranetException('Absence de droit de lecture de la structure',SGDFIntranetException::SGDF_ERROR_NO_RIGHT);
 				}
 
 			}
 			else
 			{
-				throw new SGDFIntranetError('Impossible de trouver la structure');
+				throw new SGDFIntranetException('Impossible de trouver la structure',SGDFIntranetException::SGDF_ERROR_NOT_FOUND);
 			}
 		
 
