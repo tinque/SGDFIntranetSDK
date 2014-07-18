@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * --------------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
  * <quentin.georget@gmail.com> wrote this file. As long as you retain this notice
@@ -39,6 +39,12 @@ class ProfileInformations {
 	
 	private $mStructure = - 1;
 	private $mCodeStructure = - 1;
+	
+	/**
+	 * 
+	 * @param SGDFIntranetUser $user utilisateur intranet
+	 */
+	
 	function __construct(SGDFIntranetUser $user) {
 		$this->mUser = $user;
 		$this->loadInformations ();

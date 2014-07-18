@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * --------------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
  * <quentin.georget@gmail.com> wrote this file. As long as you retain this notice 
@@ -10,10 +10,23 @@
  */
 namespace Tinque\SGDFIntranetSDK;
 
-
 use Goutte\Client as GoutteClient;
 
+use Tinque\SGDFIntranetSDK\User\ProfileInformations;
+use Tinque\SGDFIntranetSDK\Structure\StructureInformations;
+
+/**
+ * Classe pour la création d'un utilisateur de l'intranet SGDF
+ * 
+ * @author Tinque
+ * @copyright Tinque
+ * @license Beerware
+ *
+ */
+
 class SGDFIntranetUser {
+	
+	
 	private $mLogin;
 	private $mPassword;
 	private $isConnected = false;
@@ -22,7 +35,10 @@ class SGDFIntranetUser {
 	
 	// Goutte client
 	private $mClientGoutte;
+	
+	
 	/**
+	 * constructeur
 	 * @param string $login
 	 * @param string $password
 	 */
@@ -52,27 +68,62 @@ class SGDFIntranetUser {
 			$this->areCredentialsValid = true;
 		}
 	}
+	
+	/**
+	 * 
+	 * @return string login de l'utilisateur
+	 */
+	
 	public function getLogin() {
 		return $this->mLogin;
 	}
+	
+	/**
+	 * @return boolean Vrai si les authentifiants sont valides
+	 */
 	public function areCredentialsValid() {
 		if (! $this->isConnected) {
 			$this->connect ();
 		}
 		return $this->areCredentialsValid;
 	}
+	
+	/**
+	 * 
+	 * @return boolean est ce que l'utilisateur est connecté
+	 * TODO : Refaire cette fonction 
+	 * 
+	 */
+	
 	public function isConnected() {
 		if (! $this->isConnected) {
 			$this->connect ();
 		}
 		return $this->isConnected;
 	}
+	
+	/**
+	 * 
+	 * @return string retourne l'erreur d'authentification
+	 */
+	
 	public function getCredentialsError() {
 		return $this->mCredentialsError;
 	}
+	
+	/**
+	 * 
+	 * @return \Goutte\Client retourne le crawler
+	 */
 	public function getClientGoutte() {
 		return $this->mClientGoutte;
 	}
+	
+	/**
+	 * 
+	 * @return boolean true si la connection est encore bonne
+	 */
+	
 	public function checkConnection() {
 		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/Accueil.aspx' );
 		if ($crawler->filter ( 'html:contains("Identification")' )->count () > 0) {
@@ -91,4 +142,32 @@ class SGDFIntranetUser {
 			return false;
 		}
 	}
+	
+	/**
+	 * Retourne un objet contenant les informations de l'utilisateur courrant
+	 * @return \Tinque\SGDFIntranetSDK\User\ProfileInformations Informations sur le profil utilisateur
+	 */
+	public function createProfileInformations()
+	{
+		return new ProfileInformations($this);
+	}
+	
+	/**
+	 * Retourne la structure avec le code donné ou la structure de l'adhérant
+	 * @param string $codeStructure
+	 * @return \Tinque\SGDFIntranetSDK\Structure\StructureInformations
+	 */
+	public function createStructureInformations($codeStructure = null)
+	{
+		if(!isset($codeStructure))
+		{
+			return new StructureInformations($this, $this->createProfileInformations()->getCodeStructure());
+		}
+		else
+		{
+			return new StructureInformations($this, $codeStructure);
+		}
+		
+	}
+	
 }
