@@ -10,8 +10,7 @@
  */
 namespace Tinque\SGDFIntranetSDK;
 
-use Tinque\SGDFIntranetSDK\User\RetrieveInformations;
-use \Serializable;
+
 use Goutte\Client as GoutteClient;
 
 class SGDFIntranetUser {
@@ -23,6 +22,11 @@ class SGDFIntranetUser {
 	
 	// Goutte client
 	private $mClientGoutte;
+	/**
+	 * @param string $login
+	 * @param string $password
+	 */
+	
 	function __construct($login, $password) {
 		$this->mLogin = $login;
 		$this->mPassword = $password;
