@@ -61,7 +61,7 @@ class ProfileInformations {
 			$crawler = $this->mUser->getClientGoutte ()->click ( $link );
 			
 			$this->mFonction = preg_replace ( '#^[0-9]+ \((.*)\)$#', '$1',$crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonction' )->text ());
-			$this->mCodeFonction = preg_replace ( '#^([0-9]+).*$#', '$1', $this->mFonction );
+			$this->mCodeFonction = preg_replace ( '#^([0-9]+).*$#', '$1', $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonction' )->text ());
 			$this->mFonctionSecondaire = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__lblFonctionsSecondaires' )->text ();
 			
 			
