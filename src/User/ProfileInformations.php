@@ -76,7 +76,9 @@ class ProfileInformations {
 			$this->mTelDomicile = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephoneDomicile')->text();
 			$this->mTelProfessionel = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephoneBureau')->text();
 			$this->mTelPortable1 = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephonePortable1')->text();
-			$this->mTelPortable2 = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephonePortable2')->text();
+			//Peut avoir un /
+			$this->mTelPortable2 = preg_replace( '#[/|] ([0-9]+)#', '$1',trim($crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephonePortable2')->text()));
+				
 			
 			$this->mAdresse = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbLigne1')->text();
 			$this->mCodePostal = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbCodePostal')->text();
