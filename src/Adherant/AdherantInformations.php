@@ -12,6 +12,7 @@ namespace Tinque\SGDFIntranetSDK\Adherant;
 use Tinque\SGDFIntranetSDK\SGDFIntranetUser;
 use Tinque\SGDFIntranetSDK\SGDFIntranetException;
 use Tinque\SGDFIntranetSDK\Tools\NameHelper;
+use Tinque\SGDFIntranetSDK\Tools\CalculeHelper;
 
 
 class AdherantInformations {
@@ -256,6 +257,10 @@ class AdherantInformations {
 		return $this->mCodeStructure;
 	}
 	
+	public  function getAge()
+	{
+		return CalculeHelper::getAge($this->mDDN);
+	}
 
 
 }
