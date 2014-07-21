@@ -127,8 +127,6 @@ class SGDFIntranetUser {
 	
 	public function checkConnection() {
 		
-		
-		
 		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/securite/ChangerMotDePasse.aspx' );
 		if ($crawler->filter ( 'html:contains("Identification")' )->count () > 0) {
 			$this->isConnected = false;

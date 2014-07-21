@@ -135,7 +135,19 @@ class AdherantInformations {
 					//Peut avoir un /
 					$this->mTelPortable2 = preg_replace( '#[/|] ([0-9]+)#', '$1',trim($crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__lblTelephonePortable2')->text()));
 						
-					$this->mAdresse = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbLigne1')->text();
+					try {
+						$this->mAdresse = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbLigne1')->text();
+					} catch (\Exception $e) {
+						try {
+							$this->mAdresse = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbLigne2')->text();
+						} catch (\Exception $e) {
+						}
+					}
+					
+					
+					
+					
+					
 					$this->mCodePostal = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbCodePostal')->text();
 					$this->mVille = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbVille')->text();
 					$this->mPays = $crawler->filter ( '#ctl00_ctl00_MainContent_DivsContent__resume__modeleIndividu__resumeAdresse__lbPays')->text();
