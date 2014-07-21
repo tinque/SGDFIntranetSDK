@@ -52,13 +52,9 @@ class AdherantInformations {
 	private $mStructure = - 1;
 	private $mCodeStructure = - 1;
 	
-	/**
-	 * 
-	 * @param SGDFIntranetUser $user
-	 * @param string $codeAdherant
-	 */
 	
-	function __construct(SGDFIntranetUser $user,$codeAdherant) {
+	
+	function __construct(SGDFIntranetUser &$user,$codeAdherant) {
 		$this->mUser = $user;
 		$this->mCodeAdherant = $codeAdherant;
 		$this->loadInformations ();
@@ -186,12 +182,6 @@ class AdherantInformations {
 
 	public function getTitre() {
 		return $this->mTitre;
-	}
-	public function areCredentialsValid() {
-		return $this->mUser->areCredentialsValid ();
-	}
-	public function isConnected() {
-		return $this->mUser->isConnected ();
 	}
 	public function getFonction() {
 		return $this->mFonction;

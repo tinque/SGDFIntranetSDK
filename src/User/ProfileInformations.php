@@ -45,7 +45,7 @@ class ProfileInformations {
 	 * @param SGDFIntranetUser $user utilisateur intranet
 	 */
 	
-	function __construct(SGDFIntranetUser $user) {
+	function __construct(SGDFIntranetUser &$user) {
 		$this->mUser = $user;
 		$this->loadInformations ();
 	}

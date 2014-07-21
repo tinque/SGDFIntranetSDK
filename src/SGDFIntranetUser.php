@@ -14,6 +14,7 @@ use Goutte\Client as GoutteClient;
 
 use Tinque\SGDFIntranetSDK\User\ProfileInformations;
 use Tinque\SGDFIntranetSDK\Structure\StructureInformations;
+use Tinque\SGDFIntranetSDK\User\UserStructure;
 
 /**
  * Classe pour la création d'un utilisateur de l'intranet SGDF
@@ -125,7 +126,10 @@ class SGDFIntranetUser {
 	 */
 	
 	public function checkConnection() {
-		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/Accueil.aspx' );
+		
+		
+		
+		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/securite/ChangerMotDePasse.aspx' );
 		if ($crawler->filter ( 'html:contains("Identification")' )->count () > 0) {
 			$this->isConnected = false;
 		} else {
@@ -169,5 +173,15 @@ class SGDFIntranetUser {
 		}
 		
 	}
+	
+	/**
+	 * Retourne un objet contenant les informations de la structure de l'utilisateur courant
+	 * @return \Tinque\SGDFIntranetSDK\User\UserStructure Informations sur la strcuture de l'utilisateur
+	 */
+	public function createUserStructure()
+	{
+		return new UserStructure($this);
+	}
+	
 	
 }

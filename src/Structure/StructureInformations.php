@@ -31,7 +31,7 @@ class StructureInformations {
 	 * @param SGDFIntranetUser $user utilisateur de l'intranet
 	 * @param string $codestructure code la structure
 	 */
-	function __construct(SGDFIntranetUser $user, $codestructure)
+	function __construct(SGDFIntranetUser &$user, $codestructure)
 	{
 		$this->mUser =$user;
 		$this->mCodeStructure = $codestructure;
