@@ -51,6 +51,31 @@ class CalculeHelper {
 		return $interval->format("%y");
 	}
 	
+	static function getCodeStructureParente($codestructure)
+	{
+		$tmpcodestructure = $codestructure;
+		
+		if($codestructure[7] !=  "0")
+		{
+			$tmpcodestructure[7] = 0;
+			$tmpcodestructure[8] = 0;
+		}
+		else
+		{
+			if($codestructure[4] !=  "0" || $codestructure[5] !=  "0" || $codestructure[6] !=  "0")
+			{
+				$tmpcodestructure[4] = 0;
+				$tmpcodestructure[5] = 0;
+				$tmpcodestructure[6] = 0;
+				
+			}
+			else {
+				$tmpcodestructure = "000000000";
+			}
+		}
+		
+		return $tmpcodestructure;
+	}
 	
 	
 }

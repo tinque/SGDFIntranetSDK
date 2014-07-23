@@ -38,9 +38,10 @@ class UserStructure {
 			$crawler = $this->mUser->getClientGoutte()->request('GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ListeAdherents.aspx');
 			
 
-			$this->mStructure = new Structure();
+			
 			$structtmp = NameHelper::SplitCodeStructureAndName($crawler->filter("#ctl00_MainContent__navigateur__ddStructures")->text());
-			$this->mStructure->setName($structtmp['namestructure'])->setCodeStructure($structtmp['codestructure']);
+			$this->mStructure = new Structure($structtmp['codestructure']);
+			$this->mStructure->setName($structtmp['namestructure']);
 			
 			$crawler->filter("#ctl00_MainContent__gvMembres > tr")->siblings()->each(
 					function ($node)

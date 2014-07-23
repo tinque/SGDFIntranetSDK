@@ -14,13 +14,19 @@ namespace Tinque\SGDFIntranetSDK\Structure;
 
 use \Tinque\SGDFIntranetSDK\SGDFIntranetUser;
 use \Tinque\SGDFIntranetSDK\SGDFIntranetException;
+use Tinque\SGDFIntranetSDK\Tools\NameHelper;
+use Tinque\SGDFIntranetSDK\Tools\CalculeHelper;
 
 
 class StructureInformations {
 	
 	private $mUser;
 	private $mCodeStructure = -1;
+	
 
+	private $mDepartement = -1;
+	private $mType = -1;
+	private $mTelephone = -1;
 
 	private $mCodeStructureParente = -1;
 	
@@ -49,29 +55,46 @@ class StructureInformations {
 
 		if($this->mUser->isConnected())
                 {
-                        $crawler = $this->mUser->getClientGoutte()->request('GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/structures/RechercherStructure.aspx?code='.$this->mCodeStructure);
-		
-			if($crawler->filter('html:contains("Rechercher une structure")')->count() == 0)
-			{
-				if($crawler->filter('html:contains("interdit")')->count() == 0)
-				{
-					$this->mCodeStructureParente = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__gvParents > .ligne1 > td')->text();
-					$this->mNom = $crawler->filter('#ctl00_ctl00_MainContent_DivsContent__resume__lblNom')->text();
-				}
-				else
-				{
-					throw new SGDFIntranetException('Absence de droit de lecture de la structure',SGDFIntranetException::SGDF_ERROR_NO_RIGHT);
-				}
+               
+                	
+                	$crawler = $this->mUser->getClientGoutte()->request('GET', 'https://intranet.sgdf.fr/popups/RechercheStructure.aspx?operations=');
+					$form = $crawler->filter('#ctl00_Popup__recherche_Rechercher')->form();
+			
+			
+					$crawler = $this->mUser->getClientGoutte()->submit ( $form, array (
+							'ctl00$Popup$_recherche$_tbCodeStructure' => $this->mCodeStructure
+					) );
 
+					$crawler->filter("#ctl00_Popup__recherche__gvResultats > tr")->siblings()->each(
+							function ($node)
+							{
+					
+								
+								$struct = NameHelper::SplitCodeStructureAndName($node->filter('td')->eq(1)->text());
+								if($struct['codestructure'] == $this->mCodeStructure)
+								{
+									$this->mNom = $struct['namestructure'];
+									
+									$this->mCodeStructureParente = CalculeHelper::getCodeStructureParente($this->mCodeStructure);
+									$this->mDepartement = $node->filter('td')->eq(3)->text();
+									$this->mType = $node->filter('td')->eq(4)->text();
+									$this->mTelephone = $node->filter('td')->eq(5)->text();
+									
+									
+								}
+								else
+								{
+									throw new SGDFIntranetException('Erreur inconnue',SGDFIntranetException::SGDF_ERROR_UNDEFINED);
+								}
+								
+					
+								
+								
+								
+							
+							}
+					);
 			}
-			else
-			{
-				throw new SGDFIntranetException('Impossible de trouver la structure',SGDFIntranetException::SGDF_ERROR_NOT_FOUND);
-			}
-		
-
-
-                }
 
 	}
 
@@ -103,5 +126,20 @@ class StructureInformations {
 	public function getNom()
 	{
 		return $this->mNom;
+	}
+	
+	public function getDepartement()
+	{
+		return $this->mDepartement;
+	}
+	
+	public function getType()
+	{
+		return $this->mType;
+	}
+	
+	public function getTelephone()
+	{
+		return $this->mTelephone;
 	}
 }

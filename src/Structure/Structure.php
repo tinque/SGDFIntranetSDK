@@ -12,6 +12,7 @@ namespace Tinque\SGDFIntranetSDK\Structure;
 
 use Tinque\SGDFIntranetSDK\SGDFIntranetUser;
 use Tinque\SGDFIntranetSDK\Structure\StructureInformations;
+use Tinque\SGDFIntranetSDK\Tools\CalculeHelper;
 
 class Structure {
 	
@@ -19,9 +20,10 @@ class Structure {
 	private $mCodeStructure = - 1;
 	private $mCodeStructureParente = null;
 	
-	function __construct()
+	function __construct($codestructure)
 	{
-		//void
+		$this->mCodeStructure = $codestructure;
+		$this->mCodeStructureParente = CalculeHelper::getCodeStructureParente($codestructure);
 	}
 	
 	/**
@@ -52,6 +54,8 @@ class Structure {
 	{
 		return $this->mCodeStructureParente;
 	}
+	
+	
 	
 	/*
 	 * Setters
