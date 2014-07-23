@@ -142,4 +142,9 @@ class StructureInformations {
 	{
 		return $this->mTelephone;
 	}
+	
+	public function  getCodeStructure()
+	{
+		return $this->mCodeStructure;
+	}
 }
