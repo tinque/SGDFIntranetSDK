@@ -16,6 +16,22 @@ namespace Tinque\SGDFIntranetSDK\Tools;
 
 
 class NameHelper {
+	
+	static function SplitCodeStructureAndName($fullnamestructure)
+	{
+		
+		$codestructure = trim(preg_replace ( "#^(.*) - .*$#", "$1", $fullnamestructure ));
+		$namestructure = trim(preg_replace ( "#^.* - (.*)$#", "$1", $fullnamestructure ));
+		
+		return array(
+			'codestructure' => $codestructure,
+			'namestructure' => $namestructure,
+		);
+	}
+	
+	
+	
+	
 	static function SpliFullName($fullname, array $familyFullNames) {
 		
 		// Recherche de la civilite

@@ -13,10 +13,13 @@ namespace Tinque\SGDFIntranetSDK\User;
 use Tinque\SGDFIntranetSDK\SGDFIntranetUser;
 use Tinque\SGDFIntranetSDK\SGDFIntranetException;
 use Tinque\SGDFIntranetSDK\Adherant\Adherant;
+use Tinque\SGDFIntranetSDK\Structure\Structure;
+use Tinque\SGDFIntranetSDK\Tools\NameHelper;
 
 class UserStructure {
 	
 	private $mUser;
+	private $mStructure = null;
 	private $mListeAdherants = array();
 	
 	function __construct(SGDFIntranetUser &$user) {
@@ -35,6 +38,9 @@ class UserStructure {
 			$crawler = $this->mUser->getClientGoutte()->request('GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/adherents/ListeAdherents.aspx');
 			
 
+			$this->mStructure = new Structure();
+			$structtmp = NameHelper::SplitCodeStructureAndName($crawler->filter("#ctl00_MainContent__navigateur__ddStructures")->text());
+			$this->mStructure->setName($structtmp['namestructure'])->setCodeStructure($structtmp['codestructure']);
 			
 			$crawler->filter("#ctl00_MainContent__gvMembres > tr")->siblings()->each(
 					function ($node)
@@ -69,6 +75,11 @@ class UserStructure {
 	public function getListeAdherants()
 	{
 		return $this->mListeAdherants;
+	}
+	
+	public function getUserStructure()
+	{
+		return $this->mStructure;
 	}
 	
 }
