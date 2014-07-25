@@ -15,6 +15,7 @@ use Goutte\Client as GoutteClient;
 use Tinque\SGDFIntranetSDK\User\ProfileInformations;
 use Tinque\SGDFIntranetSDK\Structure\StructureInformations;
 use Tinque\SGDFIntranetSDK\User\UserStructure;
+use Tinque\SGDFIntranetSDK\Intranet\AlertsList;
 
 /**
  * Classe pour la création d'un utilisateur de l'intranet SGDF
@@ -181,5 +182,12 @@ class SGDFIntranetUser {
 		return new UserStructure($this);
 	}
 	
-	
+	/**
+	 * retourne la liste des alertes intranet pour l\'utilisateur
+	 * @return \Tinque\SGDFIntranetSDK\Intranet\AlertsList Liste des alertes
+	 */
+	public function createAlertsList()
+	{
+		return new AlertsList($this);
+	}
 }
