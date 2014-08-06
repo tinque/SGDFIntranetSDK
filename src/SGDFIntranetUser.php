@@ -12,6 +12,8 @@ namespace Tinque\SGDFIntranetSDK;
 
 use Goutte\Client as GoutteClient;
 
+use GuzzleHttp\Client as GuzzleClient;
+
 use Tinque\SGDFIntranetSDK\User\ProfileInformations;
 use Tinque\SGDFIntranetSDK\Structure\StructureInformations;
 use Tinque\SGDFIntranetSDK\User\UserStructure;
@@ -45,11 +47,24 @@ class SGDFIntranetUser {
 	 * @param string $password
 	 */
 	
-	function __construct($login, $password) {
+	function __construct($login, $password,$ssl_check = true,$proxy= null) {
 		$this->mLogin = $login;
 		$this->mPassword = $password;
 		
 		$this->mClientGoutte = new GoutteClient ();
+		$options = array('allow_redirects' => false, 'cookies' => true,'verify'=>$ssl_check);
+		if($proxy)	$options['proxy'] = $proxy;
+
+		
+		$cientGuzzle = new GuzzleClient(
+						array('defaults' => $options)
+					);
+		$this->mClientGoutte->setClient($cientGuzzle);
+			
+		$this->mClientGoutte->setServerParameter("HTTP_USER_AGENT", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+		$this->mClientGoutte->setServerParameter("HTTP_ACCEPT", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		$this->mClientGoutte->setServerParameter('HTTP_ACCEPT_LANGUAGE','fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3');
+			
 	}
 	private function connect() {
 		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr' );
@@ -128,7 +143,7 @@ class SGDFIntranetUser {
 	
 	public function checkConnection() {
 		
-		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/securite/ChangerMotDePasse.aspx' );
+		$crawler = $this->mClientGoutte->request ( 'GET', 'https://intranet.sgdf.fr/Specialisation/Sgdf/Accueil.aspx' );
 		if ($crawler->filter ( 'html:contains("Identification")' )->count () > 0) {
 			$this->isConnected = false;
 		} else {
