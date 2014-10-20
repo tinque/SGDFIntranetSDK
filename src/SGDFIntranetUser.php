@@ -195,7 +195,7 @@ class SGDFIntranetUser {
 	 * @param string $codeAdherant
 	 * @return \Tinque\SGDFIntranetSDK\Adherant\AdherantInformations
 	 */
-	public function createAdherantsInformations($this,$codeAdherant)
+	public function createAdherantsInformations($codeAdherant)
 	{
 		if(!isset($codeAdherant))
 		{
