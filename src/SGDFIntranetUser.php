@@ -191,17 +191,14 @@ class SGDFIntranetUser {
 	
 	
 	/**
-	 * Retourne la structure avec le code donn� ou la structure de l'adh�rant
+	 * Retourne un objet contenant les informations de l'adh�rant
 	 * @param string $codeAdherant
 	 * @return \Tinque\SGDFIntranetSDK\Adherant\AdherantInformations
 	 */
 	public function createAdherantsInformations($codeAdherant)
 	{
-		if(!isset($codeAdherant))
-		{
-			return new AdherantInformations($this, $codeAdherant);
-		}
-	
+		return new AdherantInformations($this, $codeAdherant);
+		
 	}
 	
 	/**
