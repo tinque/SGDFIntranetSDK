@@ -192,6 +192,14 @@ class AdherantInformations {
 	public function getCivilite() {
 		return $this->mCivilite;
 	}
+	
+	public function getPere(){
+		return $this->mPere;
+	}
+	
+	public function getMere(){
+		return $this->mMere;
+	}
 
 	public function getTitre() {
 		return $this->mTitre;
