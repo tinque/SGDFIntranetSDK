@@ -55,6 +55,11 @@ class UserStructure {
 							->setCodeFonction($node->filter('td')->eq(2)->text())
 							->setNomPrenom($node->filter('td')->eq(0)->text())
 							->setCodeAdherant($node->filter('td')->eq(1)->text())
+							->setType($node->filter('td')->eq(3)->text())
+							->setFinFonction($node->filter('td')->eq(4)->text())
+							->setCodePostal($node->filter('td')->eq(5)->text())
+							->setVille($node->filter('td')->eq(6)->text())
+							->setFinAdhesion($node->filter('td')->eq(7)->text())
 							;
 						array_push($this->mListeAdherants, $tmpadherant);
 					}
