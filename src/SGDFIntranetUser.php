@@ -18,9 +18,10 @@ use Tinque\SGDFIntranetSDK\User\ProfileInformations;
 use Tinque\SGDFIntranetSDK\Structure\StructureInformations;
 use Tinque\SGDFIntranetSDK\User\UserStructure;
 use Tinque\SGDFIntranetSDK\Intranet\AlertsList;
+use Tinque\SGDFIntranetSDK\Adherant\AdherantInformations;
 
 /**
- * Classe pour la création d'un utilisateur de l'intranet SGDF
+ * Classe pour la crï¿½ation d'un utilisateur de l'intranet SGDF
  * 
  * @author Tinque
  * @copyright Tinque
@@ -107,7 +108,7 @@ class SGDFIntranetUser {
 	
 	/**
 	 * 
-	 * @return boolean est ce que l'utilisateur est connecté
+	 * @return boolean est ce que l'utilisateur est connectï¿½
 	 * TODO : Refaire cette fonction 
 	 * 
 	 */
@@ -171,7 +172,7 @@ class SGDFIntranetUser {
 	}
 	
 	/**
-	 * Retourne la structure avec le code donné ou la structure de l'adhérant
+	 * Retourne la structure avec le code donnï¿½ ou la structure de l'adhï¿½rant
 	 * @param string $codeStructure
 	 * @return \Tinque\SGDFIntranetSDK\Structure\StructureInformations
 	 */
@@ -186,6 +187,21 @@ class SGDFIntranetUser {
 			return new StructureInformations($this, $codeStructure);
 		}
 		
+	}
+	
+	
+	/**
+	 * Retourne la structure avec le code donnï¿½ ou la structure de l'adhï¿½rant
+	 * @param string $codeAdherant
+	 * @return \Tinque\SGDFIntranetSDK\Adherant\AdherantInformations
+	 */
+	public function createAdherantsInformations($this,$codeAdherant)
+	{
+		if(!isset($codeAdherant))
+		{
+			return new AdherantInformations($this, $codeAdherant);
+		}
+	
 	}
 	
 	/**
